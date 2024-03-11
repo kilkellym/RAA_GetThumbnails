@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>RAA_GetThumbnails - Command 1</Text>
+    <Description>Some description for RAA_GetThumbnails</Description>
+    <Assembly>RAA_GetThumbnails.dll</Assembly>
+    <FullClassName>RAA_GetThumbnails.Command1</FullClassName>
+    <ClientId>1dc33cb7-1d7e-48d8-a8ba-88d7bde1ff12</ClientId>
+    <VendorId>com.YOUR COMPANY NAME</VendorId>
+    <VendorDescription>YOUR COMPANY NAME, YOUR COMPANY URL</VendorDescription>
+  </AddIn>
+</RevitAddIns>

@@ -1,0 +1,28 @@
+﻿<Window x:Class="RAA_GetThumbnails.ImageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RAA_GetThumbnails"
+        mc:Ignorable="d"
+        Title="Image Gallery" Height="450" Width="800">
+    <Grid>
+        <ItemsControl Name="ImageGrid">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5">
+                        <StackPanel>
+                            <Image Source="{Binding ImageBitmap}" Width="100" Height="100" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                            <TextBlock Text="{Binding FileName}" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</Window>
