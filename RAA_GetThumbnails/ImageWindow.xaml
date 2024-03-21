@@ -7,22 +7,24 @@
         mc:Ignorable="d"
         Title="Image Gallery" Height="450" Width="800">
     <Grid>
-        <ItemsControl Name="ImageGrid">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="5">
-                        <StackPanel>
-                            <Image Source="{Binding ImageBitmap}" Width="100" Height="100" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
-                            <TextBlock Text="{Binding FileName}" TextAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="3"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl Name="ImageGrid">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5">
+                            <StackPanel>
+                                <Image Source="{Binding ImageBitmap}" Width="100" Height="100" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                                <TextBlock Text="{Binding FileName}" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
