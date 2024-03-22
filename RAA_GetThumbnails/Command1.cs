@@ -29,18 +29,22 @@ namespace RAA_GetThumbnails
 			// get family instances from the model
 			FilteredElementCollector collector = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance));
 
+			// create list of ImageEntities. These will get pushed to the WPF form
 			List<ImageEntity> images = new List<ImageEntity>();
 			foreach(FamilyInstance fi in collector)
 			{
+				// get type from family instance
 				ElementId typeId = fi.GetTypeId();
 				ElementType type = doc.GetElement(typeId) as ElementType;
-				
+
+				// create instance of ImageEntity class using element type
 				ImageEntity image = ImageView.GetImageEntityFromType(type);
 
 				if(image != null)
 					images.Add(image);
 			}
-			
+
+			// sort list of ImageEntities by type name
 			List<ImageEntity> sortedImages = images.OrderBy(x => x.FileName).ToList();
 
 			// Show the images in a window
