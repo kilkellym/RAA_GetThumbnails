@@ -41,18 +41,6 @@ namespace RAA_GetThumbnails
 			ImageGrid.ItemsSource = Images;
 		}
 
-		// Optionally, you can load images from paths directly (example method)
-		public void AddImageFromPath(string path, string fileName)
-		{
-			var imageEntity = new ImageEntity
-			{
-				ImagePath = path,
-				FileName = fileName,
-				ImageBitmap = new BitmapImage(new Uri(path))
-			};
-
-			Images.Add(imageEntity);
-		}
 
 		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{

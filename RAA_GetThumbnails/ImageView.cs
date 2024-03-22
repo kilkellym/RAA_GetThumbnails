@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -9,38 +11,35 @@ namespace RAA_GetThumbnails
 	{
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr hObject);
-		public static ImageEntity GetImageEntity(string familyFile)
+		public static ImageEntity GetImageEntityFromType(ElementType type)
 		{
-			int THUMB_SIZE = 200;
+			Size imgSize = new Size(200, 200);
+
+			Bitmap image = type.GetPreviewImage(imgSize);
 
 			try
 			{
-				// return image data
-				ImageEntity ie = new ImageEntity();
-				ie.ImagePath = familyFile;
-				ie.FileName = Path.GetFileNameWithoutExtension(familyFile);
-				//ie.ImageBitmap = WindowsThumbnailProvider.GetThumbnail(familyFile, 200, 200, ThumbnailOptions.None);
-
-				using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(THUMB_SIZE, THUMB_SIZE))
+				if(image != null)
 				{
-					IntPtr hBitmap = WindowsThumbnailProvider.GetThumbnail(familyFile, THUMB_SIZE, THUMB_SIZE, ThumbnailOptions.None);
-
-					try
-					{
-						ie.ImageBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-							hBitmap, IntPtr.Zero, System.Windows.Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-					}
-					finally
-					{
-						DeleteObject(hBitmap);
-					}
+					// return image data
+					ImageEntity ie = new ImageEntity();
+					ie.FileName = type.Name;
+					ie.ImageBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+						image.GetHbitmap(),
+						IntPtr.Zero,
+						System.Windows.Int32Rect.Empty,
+						System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+					return ie;
 				}
-
-				return ie;
+				else
+				{
+					return null;
+				}
+				
 			}
 			catch (Exception ex)
 			{
-				throw new Exception(ex.Message);
+				return null;
 			}
 		}
 		public static List<ImageEntity> GetAllImagesData(List<string> listFamilyFiles)
@@ -50,9 +49,9 @@ namespace RAA_GetThumbnails
 				List<ImageEntity> list = new List<ImageEntity>();
 				foreach (string familyFile in listFamilyFiles)
 				{
-					ImageEntity ie = GetImageEntity(familyFile);
+					//ImageEntity ie = GetImageEntity(familyFile);
 
-					list.Add(ie);
+					//list.Add(ie);
 				}
 				return list;
 			}
@@ -64,7 +63,6 @@ namespace RAA_GetThumbnails
 	}
 	public class ImageEntity
 	{
-		public string ImagePath { get; set; }
 		public string FileName { get; set; }
 		public System.Windows.Media.ImageSource ImageBitmap { get; set; }
 	}

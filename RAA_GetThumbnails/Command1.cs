@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using System.Linq;
+using System.Drawing;
 #endregion
 
 namespace RAA_GetThumbnails
@@ -24,29 +25,22 @@ namespace RAA_GetThumbnails
 
 			// this is a variable for the current Revit model
 			Document doc = uiapp.ActiveUIDocument.Document;
-			string tempSavePath = Path.Combine(@"C:\temp", "FamilyThumbnails");
 
-			// get families from the model
-			FilteredElementCollector collector = new FilteredElementCollector(doc).OfClass(typeof(Family));
-
-			int i = 0;
-			int imageCounter = 0;
-			int imageLimit = 35;
+			// get family instances from the model
+			FilteredElementCollector collector = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance));
 
 			List<ImageEntity> images = new List<ImageEntity>();
-			do
+			foreach(FamilyInstance fi in collector)
 			{
-				Family family = collector.ElementAt(i) as Family;
-				string path = ExportFamily(doc, family, tempSavePath);
+				ElementId typeId = fi.GetTypeId();
+				ElementType type = doc.GetElement(typeId) as ElementType;
+				
+				ImageEntity image = ImageView.GetImageEntityFromType(type);
 
-				if (!string.IsNullOrEmpty(path))
-				{
-					images.Add(ImageView.GetImageEntity(path));
-					imageCounter++;
-				}
-				i++;
-			} while (imageCounter < imageLimit);
-
+				if(image != null)
+					images.Add(image);
+			}
+			
 			List<ImageEntity> sortedImages = images.OrderBy(x => x.FileName).ToList();
 
 			// Show the images in a window
